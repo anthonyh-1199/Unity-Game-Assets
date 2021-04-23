@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class StateWalk : PlayerState
 {   
+    //This is the state for when the player is grounded and is not crouching, but is touching the movement keys
 
-    //Initialize variables
     public override void EnterState(PlayerStateMachine player){
         player.playerSpeed = 6;
         player.playerSprintSpeed = 10;
@@ -82,6 +82,11 @@ public class StateWalk : PlayerState
         //Transition to StateCrouch is the player is pressing the crouch button
         if (Input.GetKey(KeyCode.LeftControl)){
             player.ChangeState(player.STATE_CROUCH);
+        }
+
+        //Transition to StateDead is the player's health is 0 or less
+        if (player.playerHealth <= 0){
+            player.ChangeState(player.STATE_DEAD);
         }
     }
 

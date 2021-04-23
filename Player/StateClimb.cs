@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StateClimb : PlayerState
 {
+    //This is the state for when the player is in the air and moving downwards and forwards against a climbable object
 
     public override void EnterState(PlayerStateMachine player)
     {

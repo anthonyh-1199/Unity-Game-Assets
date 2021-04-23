@@ -15,6 +15,9 @@ public class PlayerStateMachine : MonoBehaviour
     public float playerGravity = 20;
     public float playerJumpSpeed = 1.3f;
 
+    //Player status
+    public float playerHealth;
+
     private PlayerState currentState;
 
     public string debugState;
@@ -25,6 +28,7 @@ public class PlayerStateMachine : MonoBehaviour
     public readonly StateAir STATE_AIR = new StateAir();
     public readonly StateCrouch STATE_CROUCH = new StateCrouch();
     public readonly StateClimb STATE_CLIMB = new StateClimb();
+    public readonly StateDead STATE_DEAD = new StateDead();
 
     [SerializeField] bool grounded;
 
@@ -33,12 +37,15 @@ public class PlayerStateMachine : MonoBehaviour
     private CharacterController playerController;
 
 
+
     void Start()
     {
         playerController = GetComponent<CharacterController>();
         ChangeState(STATE_IDLE);
         debugState = "IDLE";
         playerSpeed = playerWalkSpeed;
+
+        playerHealth = 100;
     }
 
 
@@ -114,5 +121,4 @@ public class PlayerStateMachine : MonoBehaviour
         Gizmos.DrawSphere(hitboxPosition, 0.50f);
     }
 
-    
 }

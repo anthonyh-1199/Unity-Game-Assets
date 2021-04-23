@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StateCrouch : PlayerState
 {
+    //This is the state for when the player is grounded and not touching any movement keys
 
     public override void EnterState(PlayerStateMachine player)
     {
@@ -43,6 +44,11 @@ public class StateCrouch : PlayerState
         //Transition to StateAir if the player is not grounded
         if (!player.isGrounded()){
             player.ChangeState(player.STATE_AIR);
+        }
+
+        //Transition to StateDead is the player's health is 0 or less
+        if (player.playerHealth <= 0){
+            player.ChangeState(player.STATE_DEAD);
         }
     }
 

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class StateIdle : PlayerState
 {
-    //This is the state for when the player is grounded and not touching any movement keys
+    //This is the state for when the player is grounded, not touching any movement keys, and is not crouching
+
     public override void EnterState(PlayerStateMachine player)
     {
 
@@ -61,6 +62,11 @@ public class StateIdle : PlayerState
         //Transition to StateCrouch is the player is pressing the crouch button
         if (Input.GetKey(KeyCode.LeftControl)){
             player.ChangeState(player.STATE_CROUCH);
+        }
+
+        //Transition to StateDead is the player's health is 0 or less
+        if (player.playerHealth <= 0){
+            player.ChangeState(player.STATE_DEAD);
         }
     }
 
