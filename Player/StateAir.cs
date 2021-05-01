@@ -45,7 +45,13 @@ public class StateAir : PlayerState
                 if (Physics.Raycast(horizontalRayPosition, player.transform.forward, out horizontalHit, 1.0f, LayerMask.GetMask("Ground"))
                 && Physics.Raycast(verticalRayPosition, -player.transform.up, out verticalHit, 1.0f, LayerMask.GetMask("Ground"))){
                     if (horizontalHit.collider.tag == "Wall" && verticalHit.collider.tag == "Wall"){
-                        player.ChangeState(player.STATE_CLIMB);
+                        //Check if there's anything blocking the player's way
+                        Vector3 hitboxPosition = player.transform.position;
+                        hitboxPosition.y = player.transform.position.y + (0.50f);
+                        if (!Physics.CheckSphere(hitboxPosition + player.transform.up, 0.50f, LayerMask.GetMask("Ground"))
+                        && !Physics.CheckSphere(hitboxPosition + player.transform.up + player.transform.forward, 0.50f, LayerMask.GetMask("Ground"))){
+                            player.ChangeState(player.STATE_CLIMB);
+                        }
                     }
                 }
 

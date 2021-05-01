@@ -7,8 +7,7 @@ public class StateWalk : PlayerState
     //This is the state for when the player is grounded and is not crouching, but is touching the movement keys
 
     public override void EnterState(PlayerStateMachine player){
-        player.playerSpeed = 6;
-        player.playerSprintSpeed = 10;
+
     }
 
 

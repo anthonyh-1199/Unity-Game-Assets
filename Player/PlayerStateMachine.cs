@@ -5,42 +5,42 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    //Initialize varialbes
+    //Initialize variables
+    private CharacterController playerController;
 
     //Player movement speeds
     public float playerSpeed;
-    public float playerWalkSpeed = 6;
+    public float playerWalkSpeed = 9;
     public float playerCrouchSpeed = 3;
-    public float playerSprintSpeed = 10;
+    public float playerSprintSpeed = 14;
     public float playerGravity = 20;
     public float playerJumpSpeed = 1.3f;
+    public bool grounded;
+    public Vector3 playerVelocity;
 
     //Player status
     public float playerHealth;
 
-    private PlayerState currentState;
+    //Audio variables
+    private AudioSource audioSource;
+    public AudioClip[] audioClips;
 
-    public string debugState;
+    //UI 
 
-    //Initialize possible states
+    //State machine variables
     public readonly StateIdle STATE_IDLE = new StateIdle();
     public readonly StateWalk STATE_WALK = new StateWalk();
     public readonly StateAir STATE_AIR = new StateAir();
     public readonly StateCrouch STATE_CROUCH = new StateCrouch();
     public readonly StateClimb STATE_CLIMB = new StateClimb();
     public readonly StateDead STATE_DEAD = new StateDead();
-
-    [SerializeField] bool grounded;
-
-    [SerializeField] public Vector3 playerVelocity;
-    
-    private CharacterController playerController;
-
-
+    private PlayerState currentState;
+    public string debugState;
 
     void Start()
     {
         playerController = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>();
         ChangeState(STATE_IDLE);
         debugState = "IDLE";
         playerSpeed = playerWalkSpeed;
@@ -64,7 +64,6 @@ public class PlayerStateMachine : MonoBehaviour
         } else {
             Debug.DrawRay(horizontalRayPosition, transform.forward, Color.green);
         }
-        
 
         Vector3 verticalRayPosition = transform.position;
         verticalRayPosition += transform.forward;
@@ -119,6 +118,11 @@ public class PlayerStateMachine : MonoBehaviour
 
         hitboxPosition.y = transform.position.y + (0.50f);
         Gizmos.DrawSphere(hitboxPosition, 0.50f);
+    }
+
+    public void TakeDamage(int damageAmount, string damageType){
+        playerHealth -= damageAmount;
+        audioSource.PlayOneShot(audioClips[0]);
     }
 
 }

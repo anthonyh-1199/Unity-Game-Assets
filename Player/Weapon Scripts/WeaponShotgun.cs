@@ -6,7 +6,7 @@ public class WeaponShotgun : MonoBehaviour
 {
 
     //Initialize variables
-    private float weaponDamage = 10.0f;
+    private int weaponDamage = 10;
     private string weaponDamageType = "bullet";
     private int weaponFireRate = 64;
     private string weaponAmmoType = "bullet";
@@ -31,7 +31,7 @@ public class WeaponShotgun : MonoBehaviour
 
     void Start()
     {
-        soundSource = GameObject.Find("Player Sound Source").GetComponent<AudioSource>();
+        soundSource = transform.GetComponentInParent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -77,6 +77,12 @@ public class WeaponShotgun : MonoBehaviour
                     var decal = Instantiate(bulletHoleDecalPrefab, bulletHit.point, Quaternion.LookRotation(bulletHit.normal));
                     decal.transform.forward = -bulletHit.normal;
                     decal.transform.localScale *= 0.5f;
+                }
+
+                //If hit object was an enemy, damage it
+                if (bulletHit.collider.tag == "Enemy"){
+                    EnemyStateMachine enemy = bulletHit.transform.parent.gameObject.GetComponent<EnemyStateMachine>();
+                    enemy.TakeDamage(weaponDamage, weaponDamageType, this.gameObject);
                 }
             }
         }

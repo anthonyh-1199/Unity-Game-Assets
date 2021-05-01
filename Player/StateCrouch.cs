@@ -31,7 +31,7 @@ public class StateCrouch : PlayerState
         //Check if the player is not holding down the crouch button
         if (!Input.GetKey(KeyCode.LeftControl)){
             //Check if the player has enough room to stand up
-            if (canStand(player)){
+            if (CanStand(player)){
                 //Transition to StateIdle if the player is not pressing the movement keys
                 if (horizontalInput == 0 && verticalInput == 0){
                     player.ChangeState(player.STATE_IDLE);
@@ -81,7 +81,7 @@ public class StateCrouch : PlayerState
     }
 
 
-    private bool canStand(PlayerStateMachine player)
+    private bool CanStand(PlayerStateMachine player)
     {
         Vector3 hitboxPosition = player.transform.position;
         hitboxPosition.y = player.transform.position.y + (0.50f);
